@@ -109,7 +109,7 @@ const searchByGenre = () => {
         const filteredFilms = films.filter(film => film.genre.toLowerCase() === genre.toLowerCase());
         if (filteredFilms.length > 0) {
             filteredFilms.forEach(film => {
-                console.log(${film.title} - ${film.year});
+                console.log(`${film.title} - ${film.year}`);
             });
         } else {
             console.log('Tidak ada film dengan genre tersebut.');
@@ -124,7 +124,7 @@ const sortFilms = () => {
     const sortedFilms = films.sort((a, b) => a.year - b.year); // Sort by year
     console.log('Film yang diurutkan berdasarkan tahun rilis:');
     sortedFilms.forEach(film => {
-        console.log(${film.title} - ${film.year});
+        console.log(`${film.title} - ${film.year}`);
     });
     mainMenu();
 };
@@ -138,7 +138,7 @@ const addRating = () => {
             rl.question('Masukkan rating (1-5): ', (rating) => {
                 film.rating = rating;
                 saveFilms(films);
-                console.log(Rating untuk film "${title}" berhasil ditambahkan!);
+                console.log(`Rating untuk film "${title}" berhasil ditambahkan!`);
                 mainMenu();
             });
         } else {
@@ -153,7 +153,7 @@ const showLatestFilm = () => {
     const films = loadFilms();
     const latestFilm = films.sort((a, b) => new Date(b.year) - new Date(a.year))[0];
     if (latestFilm) {
-        console.log(Film terbaru: ${latestFilm.title} - ${latestFilm.year});
+        console.log(`Film terbaru: ${latestFilm.title} - ${latestFilm.year}`);
     } else {
         console.log('Tidak ada film di database.');
     }
