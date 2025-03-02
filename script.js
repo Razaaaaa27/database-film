@@ -128,3 +128,80 @@ const sortFilms = () => {
     });
     mainMenu();
 };
+
+// Add rating to a film
+const addRating = () => {
+    rl.question('Masukkan judul film untuk diberi rating: ', (title) => {
+        const films = loadFilms();
+        const film = films.find(f => f.title.toLowerCase() === title.toLowerCase());
+        if (film) {
+            rl.question('Masukkan rating (1-5): ', (rating) => {
+                film.rating = rating;
+                saveFilms(films);
+                console.log(Rating untuk film "${title}" berhasil ditambahkan!);
+                mainMenu();
+            });
+        } else {
+            console.log('Film tidak ditemukan.');
+            mainMenu();
+        }
+    });
+};
+
+// Show latest film
+const showLatestFilm = () => {
+    const films = loadFilms();
+    const latestFilm = films.sort((a, b) => new Date(b.year) - new Date(a.year))[0];
+    if (latestFilm) {
+        console.log(Film terbaru: ${latestFilm.title} - ${latestFilm.year});
+    } else {
+        console.log('Tidak ada film di database.');
+    }
+    mainMenu();
+};
+
+// Backup data
+const backupData = () => {
+    const films = loadFilms();
+    fs.writeFileSync('films_backup.json', JSON.stringify(films, null, 2));
+    console.log('Data berhasil dicadangkan!');
+    mainMenu();
+};
+
+// Main menu
+const mainMenu = () => {
+    console.log('\nPilih aksi:');
+    console.log('1. Lihat daftar film');
+    console.log('2. Tambah film');
+    console.log('3. Lihat satu film');
+    console.log('4. Update film');
+    console.log('5. Hapus film');
+    console.log('6. Cari film berdasarkan genre');
+    console.log('7. Urutkan film berdasarkan tahun');
+    console.log('8. Tambah rating film');
+    console.log('9. Lihat film terbaru');
+    console.log('10. Backup data');
+    console.log('11. Keluar');
+    rl.question('Masukkan nomor: ', (answer) => {
+        switch (answer) {
+            case '1': showFilms(); break;
+            case '2': addFilm(); break;
+            case '3': showOneFilm(); break;
+            case '4': updateFilm(); break;
+            case '5': deleteFilm(); break;
+            case '6': searchByGenre(); break;
+            case '7': sortFilms(); break;
+            case '8': addRating(); break;
+            case '9': showLatestFilm(); break;
+            case '10': backupData(); break;
+            case '11': rl.close(); break;
+            default:
+                console.log('Pilihan tidak valid, coba lagi.');
+                mainMenu();
+        }
+    });
+};
+
+// Start program
+console.log('Selamat datang di Database Film!');
+mainMenu();
