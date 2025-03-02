@@ -102,3 +102,29 @@ const deleteFilm = () => {
     });
 };
 
+// Search films by genre
+const searchByGenre = () => {
+    rl.question('Masukkan genre yang ingin dicari: ', (genre) => {
+        const films = loadFilms();
+        const filteredFilms = films.filter(film => film.genre.toLowerCase() === genre.toLowerCase());
+        if (filteredFilms.length > 0) {
+            filteredFilms.forEach(film => {
+                console.log(${film.title} - ${film.year});
+            });
+        } else {
+            console.log('Tidak ada film dengan genre tersebut.');
+        }
+        mainMenu();
+    });
+};
+
+// Sort films by year
+const sortFilms = () => {
+    const films = loadFilms();
+    const sortedFilms = films.sort((a, b) => a.year - b.year); // Sort by year
+    console.log('Film yang diurutkan berdasarkan tahun rilis:');
+    sortedFilms.forEach(film => {
+        console.log(${film.title} - ${film.year});
+    });
+    mainMenu();
+};
